@@ -35,6 +35,20 @@ CONTAINING For Character fields only. The database will only return rows where t
 
 7. Count - This is an optional entry and is shown as #7 in the above URL image. Count shows the total number of records that will be returned for this search once the Count option is removed. When Count is used, Excel, CSV, or XML cannot be specified. The column name is not case sensitive.
 
-### Example Query :
+### Steps to replicate a query url :
+
+1. pick the Greenhouse Gas subject area (sub part). For example, landfills are HH:
+   [GHG Envirofacts subject areas](https://www.epa.gov/enviro/greenhouse-gas-model)
+
+2. pick a table within that specific sub part using the model that shows all the table names :
+   [GHG Envirofacts tables for the HH sub part](https://www.epa.gov/enviro/greenhouse-gas-subpart-hh-model)
+
+3. pick the specific column/columns that are relevant to the query. For example, wihtin the HH_LANDFILL_INFO table :
+   [Columns within the HH_LANDFILL_INFO table](https://enviro.epa.gov/enviro/ef_metadata_html.ef_metadata_table?p_table_name=HH_LANDFILL_INFO&p_topic=GHG)
+
+4. With the table and column ( HH_LANDFILL_INFO & REPORTING_YEAR ), you can build out the base of the query url :
+   - see the Data Service API URL section above : [api search parameters](https://www.epa.gov/enviro/envirofacts-data-service-api#metadata)
+
+### Example query :
 
 [2018 Landfill Data for US facilities](https://enviro.epa.gov/enviro/efservice/HH_LANDFILL_INFO/REPORTING_YEAR/=/2018/rows/0:499/JSON)

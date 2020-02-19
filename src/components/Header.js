@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -12,26 +12,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const StyledAppBar = styled(AppBar)({
+  color: 'white'
+});
+const StyledIcon = styled(MenuIcon)({
+  color: 'white'
+});
+
 export default function Header() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <StyledAppBar position="static">
         <Toolbar variant="dense">
           <IconButton
             edge="start"
             className={classes.menuButton}
-            color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            <StyledIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
-            EPA DATA
-          </Typography>
+          <Typography variant="h6">EPA DATA</Typography>
         </Toolbar>
-      </AppBar>
+      </StyledAppBar>
     </div>
   );
 }
