@@ -1,27 +1,32 @@
 import React from 'react';
 import axios from 'axios';
 
-export default function useFetch(url) {
-  const [data, setData] = React.useState({
-    loading: true,
-    error: false,
-    apiData: []
-  });
+const useFetch = url => {
+  // loading, error & data state
+  const [loading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    const fetchData = async () => {
+    async function fetchPost() {
       try {
-        const apiResponse = await axios.get(url).then(res => res.data);
-        setData(data => ({ ...data, apiData: apiResponse }));
-      } catch {
-        setData(data => ({ ...data, error: true }));
+        // attempt fetch
+        const apiData = await axios.get(url).then(res => res.data);
+        setData(apiData); // set data
+      } catch (error) {
+        setError(error); // set error
       } finally {
-        setData(data => ({ ...data, loading: false }));
+        // runs last only under try/pass condiiton >> resets loading
+        setIsLoading(false);
       }
-    };
+    }
 
-    url && fetchData();
-  }, []);
+    // set the loading flag & make api call
+    setIsLoading(true);
+    fetchPost();
+  }, [url]); // only re-render on url change
 
-  return data;
-}
+  return { loading, error, data }; // return state as obj
+};
+
+export default useFetch;
