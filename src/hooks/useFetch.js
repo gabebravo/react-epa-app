@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 const useFetch = url => {
+  console.log('called');
   // loading, error & data state
   const [loading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState(null);

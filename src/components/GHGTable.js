@@ -1,20 +1,31 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { makeStyles, styled } from '@material-ui/core/styles';
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TablePagination,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button
+} from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650
   },
-  row: {
-    width: '5rem'
+  tr: {
+    background: '#000'
   }
+});
+
+const StyledTableCell = styled(TableCell)({
+  backgroundColor: 'black',
+  color: 'white'
 });
 
 export default function GHGTable({ apiData }) {
@@ -36,42 +47,67 @@ export default function GHGTable({ apiData }) {
 
   const buildRows = () => apiData.map(data => createData(data));
 
+  const EnhancedTableToolbar = props => {
+    return (
+      <Grid container spacing={3} style={{ marginBottom: 5 }}>
+        <Grid item xs={6}>
+          <Typography variant="h6">Landfill Co2 Data</Typography>
+        </Grid>
+        <Grid item xs={6} container justify="flex-end">
+          <Button
+            style={{ color: '#fff' }}
+            variant="contained"
+            color="secondary"
+            component="span"
+            aria-label="filter list"
+          >
+            Export Table
+          </Button>
+        </Grid>
+      </Grid>
+    );
+  };
+
   const buildTable = rows => {
     return rows.map(row => (
       <TableRow key={row.id}>
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="left">{row.name}</TableCell>
-        <TableCell align="left" className={classes.row}>
-          {row.isOpen}
-        </TableCell>
-        <TableCell align="left" className={classes.row}>
-          {row.hasGasClct}
-        </TableCell>
-        <TableCell align="left" className={classes.row}>
-          {row.ch4Gen}
-        </TableCell>
+        <TableCell align="left">{row.isOpen}</TableCell>
+        <TableCell align="left">{row.hasGasClct}</TableCell>
+        <TableCell align="left">{row.ch4Gen}</TableCell>
       </TableRow>
     ));
   };
 
   return (
     apiData && (
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Facility ID</TableCell>
-              <TableCell align="left">Facility Name</TableCell>
-              <TableCell align="left">Is Open</TableCell>
-              <TableCell align="left">Has Gas CLCT</TableCell>
-              <TableCell align="left">CH4 Generation</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{buildTable(buildRows())}</TableBody>
-        </Table>
-      </TableContainer>
+      <>
+        <EnhancedTableToolbar />
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Facility ID</StyledTableCell>
+                <StyledTableCell align="left">Is Open</StyledTableCell>
+                <StyledTableCell align="left">Has Gas CLCT</StyledTableCell>
+                <StyledTableCell align="left">CH4 Generation</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{buildTable(buildRows())}</TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[]}
+            component="div"
+            count={30}
+            rowsPerPage={15}
+            page={0}
+            onChangePage={() => console.log('clicked')}
+            onChangeRowsPerPage={() => console.log('clicked')}
+          />
+        </TableContainer>
+      </>
     )
   );
 }
