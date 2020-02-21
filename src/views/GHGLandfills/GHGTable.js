@@ -89,7 +89,7 @@ export default function GHGTable({ apiData }) {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Facility ID</StyledTableCell>
+                <StyledTableCell>Facility Name</StyledTableCell>
                 <StyledTableCell align="left">Is Open</StyledTableCell>
                 <StyledTableCell align="left">Has Gas CLCT</StyledTableCell>
                 <StyledTableCell align="left">CH4 Generation</StyledTableCell>

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper } from '@material-ui/core';
 import Skeleton from '../../components/SKLoader';
 // import GHGlist from '../../components/GHGlist';
-import GHGTable from '../../components/GHGTable';
+import GHGTable from './GHGTable';
 import Title from '../../components/Title';
 
 const GHG_URL =

@@ -33,7 +33,7 @@ export default function Header() {
           >
             <StyledIcon />
           </IconButton>
-          <Typography variant="h6">EPA DATA</Typography>
+          <Typography variant="h6">Envirofacts Data</Typography>
         </Toolbar>
       </StyledAppBar>
     </div>
