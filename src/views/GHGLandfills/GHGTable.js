@@ -15,13 +15,7 @@ import {
 } from '@material-ui/core';
 import { CSVLink } from 'react-csv';
 import styled from 'styled-components';
-
-const csvData = [
-  ['firstname', 'lastname', 'email'],
-  ['Ahmed', 'Tomi', 'ah@smthing.co.com'],
-  ['Raed', 'Labes', 'rl@smthing.co.com'],
-  ['Yezzi', 'Min l3b', 'ymin@cocococo.com']
-];
+import _pick from 'lodash/pick';
 
 const useStyles = makeStyles({
   table: {
@@ -68,6 +62,18 @@ export default function GHGTable({ apiData }) {
 
   const buildRows = () => apiData.map(data => createData(data));
 
+  const getCsvData = () => {
+    return apiData.map(user =>
+      _pick(user, [
+        'FACILITY_ID',
+        'FACILITY_NAME',
+        'IS_LANDFILL_OPEN',
+        'DOES_LNDFIL_HAVE_GAS_CLCT',
+        'ANNUAL_MODELED_CH4_GENERATION'
+      ])
+    );
+  };
+
   const EnhancedTableToolbar = props => {
     return (
       <Grid container spacing={3} style={{ marginBottom: 5 }}>
@@ -75,7 +81,7 @@ export default function GHGTable({ apiData }) {
           <Typography variant="h6">Landfill Co2 Data</Typography>
         </Grid>
         <Grid item xs={6} container justify="flex-end">
-          <StyledCSVLink data={csvData}>
+          <StyledCSVLink data={getCsvData()}>
             <Button
               style={{ color: '#fff' }}
               variant="contained"
@@ -91,8 +97,8 @@ export default function GHGTable({ apiData }) {
     );
   };
 
-  const buildTable = rows => {
-    return rows.map(row => (
+  const buildTable = () => {
+    return buildRows().map(row => (
       <TableRow key={row.id}>
         <TableCell component="th" scope="row">
           {row.name}
@@ -118,7 +124,7 @@ export default function GHGTable({ apiData }) {
                 <StyledTableCell align="left">CH4 Generation</StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{buildTable(buildRows())}</TableBody>
+            <TableBody>{buildTable()}</TableBody>
           </Table>
           <TablePagination
             rowsPerPageOptions={[]}

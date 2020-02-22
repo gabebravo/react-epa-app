@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
+// import MenuIcon from '@material-ui/icons/Menu';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,18 +17,20 @@ const useStyles = makeStyles(theme => ({
 const StyledAppBar = styled(AppBar)({
   color: 'white'
 });
-const StyledIcon = styled(MenuIcon)({
+const StyledIcon = styled(HomeIcon)({
   color: 'white'
 });
 
 export default function Header() {
   const classes = useStyles();
+  let history = useHistory();
 
   return (
     <div className={classes.root}>
       <StyledAppBar position="static">
         <Toolbar variant="dense">
           <IconButton
+            onClick={() => history.push('/')}
             edge="start"
             className={classes.menuButton}
             aria-label="menu"
