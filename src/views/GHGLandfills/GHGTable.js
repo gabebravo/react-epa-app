@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
   Table,
@@ -13,6 +13,15 @@ import {
   Typography,
   Button
 } from '@material-ui/core';
+import { CSVLink } from 'react-csv';
+import styled from 'styled-components';
+
+const csvData = [
+  ['firstname', 'lastname', 'email'],
+  ['Ahmed', 'Tomi', 'ah@smthing.co.com'],
+  ['Raed', 'Labes', 'rl@smthing.co.com'],
+  ['Yezzi', 'Min l3b', 'ymin@cocococo.com']
+];
 
 const useStyles = makeStyles({
   table: {
@@ -27,6 +36,18 @@ const StyledTableCell = styled(TableCell)({
   backgroundColor: 'black',
   color: 'white'
 });
+
+const StyledCSVLink = styled(CSVLink)`
+  text-decoration: none;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
 
 export default function GHGTable({ apiData }) {
   const classes = useStyles();
@@ -54,15 +75,17 @@ export default function GHGTable({ apiData }) {
           <Typography variant="h6">Landfill Co2 Data</Typography>
         </Grid>
         <Grid item xs={6} container justify="flex-end">
-          <Button
-            style={{ color: '#fff' }}
-            variant="contained"
-            color="secondary"
-            component="span"
-            aria-label="filter list"
-          >
-            Export Table
-          </Button>
+          <StyledCSVLink data={csvData}>
+            <Button
+              style={{ color: '#fff' }}
+              variant="contained"
+              color="secondary"
+              component="span"
+              aria-label="filter list"
+            >
+              Export Table
+            </Button>
+          </StyledCSVLink>
         </Grid>
       </Grid>
     );

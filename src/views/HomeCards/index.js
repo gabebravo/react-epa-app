@@ -28,6 +28,7 @@ export default function HomeCards() {
               header="Landfill Info"
               text="Envirofacts EPA data for Landfill C02 in 2018"
               imgUrl="https://st8.cannypic.com/thumbs/41/412647_632_canny_pic.jpg"
+              route="/landfills"
             />
           </Grid>
         </Grid>
