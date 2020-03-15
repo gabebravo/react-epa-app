@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import HomeCards from './views/HomeCards';
 import GHGLandfills from './views/GHGLandfills';
+import GHGSubpartInfo from './views/GHGSubpartInfo';
 const NoMatch = () => 'There is nothing to see here';
 
 export default function Routes() {
@@ -16,6 +17,9 @@ export default function Routes() {
           </Route>
           <Route path="/landfills">
             <GHGLandfills />
+          </Route>
+          <Route path="/subpart-info">
+            <GHGSubpartInfo />
           </Route>
           <Route path="*">
             <NoMatch />
