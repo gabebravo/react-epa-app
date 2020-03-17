@@ -11,7 +11,8 @@ import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345
+    maxWidth: 345,
+    margin: 'auto'
   }
 });
 
@@ -24,10 +25,10 @@ export default function HomeCard({ header, text, imgUrl, route }) {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Landfill image"
           height="140"
           image={imgUrl}
-          title="Contemplative Reptile"
+          title="Landfill image"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">

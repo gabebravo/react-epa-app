@@ -13,6 +13,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary
+  },
+  cardWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap'
   }
 }));
 
@@ -23,12 +27,18 @@ export default function HomeCards() {
       <Title text="ENVIROFACTS SECTIONS" />
       <div className={classes.root}>
         <Grid container justify="center" spacing={3}>
-          <Grid item xs={12} sm={8}>
+          <Grid className={classes.cardWrapper} item xs={12} sm={8}>
             <HomeCard
               header="Landfill Info"
               text="Envirofacts EPA data for Landfill C02 in 2018"
               imgUrl="https://st8.cannypic.com/thumbs/41/412647_632_canny_pic.jpg"
               route="/landfills"
+            />
+            <HomeCard
+              header="Subpart Info"
+              text="Envirofacts EPA data for Subpart GHG"
+              imgUrl="https://st8.cannypic.com/thumbs/41/412647_632_canny_pic.jpg"
+              route="/subpart-info"
             />
           </Grid>
         </Grid>

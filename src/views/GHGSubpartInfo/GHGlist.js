@@ -48,15 +48,19 @@ export default function GHGlist() {
 
   useEffect(() => {
     const list = document.getElementById('list');
-    window.addEventListener('scroll', () => {
-      if (
-        window.scrollY + window.innerHeight ===
-        list.clientHeight + list.offsetTop + 8
-      ) {
-        setLoadMore(true);
-      }
-    });
-    return () => window.removeEventListener('scroll');
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (
+          window.scrollY + window.innerHeight ===
+          list.clientHeight + list.offsetTop + 8
+        ) {
+          setLoadMore(true);
+        }
+      },
+      true
+    );
+    return () => window.removeEventListener('scroll', () => {}, false);
   }, []);
 
   useEffect(() => {
@@ -98,7 +102,9 @@ export default function GHGlist() {
                         <Typography>{`GHG: ${GHG_NAME}`}</Typography>
                       </Grid>
                       <Grid item xs={3}>
-                        <Typography>{`GHG Quantity: ${GHG_QUANTITY}`}</Typography>
+                        <Typography>{`GHG Quantity: ${GHG_QUANTITY.toFixed(
+                          2
+                        )}`}</Typography>
                       </Grid>
                     </Grid>
                   </Paper>
