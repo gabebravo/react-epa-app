@@ -66,8 +66,6 @@ export default function GHGlist() {
     }
   }, [loadMore]);
 
-  console.log('data', data);
-
   return (
     <div id="list" className={classes.root}>
       {data.length > 0 &&
