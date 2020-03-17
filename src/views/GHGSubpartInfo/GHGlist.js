@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Typography } from '@material-ui/core';
-import axios from 'axios';
+import Dropdown from '../../components/Dropdown';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,13 +15,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function GHGlist() {
   const classes = useStyles();
-  const [rowObj, setRowObj] = useState({ rowStart: 0, rowEnd: 9 });
+  const [rowObj, setRowObj] = useState({ rowStart: 0, rowEnd: 9, year: 2018 });
 
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
 
-  const getData = ({ rowStart, rowEnd }) => {
-    const GHG_URL = `https://enviro.epa.gov/enviro/efservice/HH_SUBPART_LEVEL_INFORMATION/REPORTING_YEAR/=/2018/rows/${rowStart}:${rowEnd}/JSON`;
+  const getData = ({ rowStart, rowEnd, year }) => {
+    const GHG_URL = `https://enviro.epa.gov/enviro/efservice/HH_SUBPART_LEVEL_INFORMATION/REPORTING_YEAR/=/${year}/rows/${rowStart}:${rowEnd}/JSON`;
     async function fetchPost() {
       try {
         // attempt fetch
@@ -43,6 +44,7 @@ export default function GHGlist() {
           list.clientHeight + list.offsetTop + 8
         ) {
           setRowObj(prevState => ({
+            ...prevState,
             rowStart: prevState.rowEnd + 1,
             rowEnd: prevState.rowEnd + 10
           }));
@@ -58,54 +60,57 @@ export default function GHGlist() {
   }, [rowObj]);
 
   return (
-    <div id="list" className={classes.root}>
-      {error ? (
-        <>
-          <Typography variant="h2" component="h3">
-            Whoops, we encountered a problem...
-          </Typography>
-        </>
-      ) : (
-        data.length > 0 &&
-        data.map(
-          ({
-            FACILITY_ID,
-            REPORTING_YEAR,
-            FACILITY_NAME,
-            GHG_NAME,
-            GHG_QUANTITY
-          }) => (
-            <div key={FACILITY_ID}>
-              <Grid container justify="center" spacing={3}>
-                <Grid item xs={12} sm={8}>
-                  <Paper
-                    className={classes.paperStyle}
-                    component="div"
-                    variant="outlined"
-                  >
-                    <Grid container justify="center" spacing={3}>
-                      <Grid item xs={4}>
-                        <Typography>{FACILITY_NAME}</Typography>
+    <>
+      <Dropdown clickHanlder={setRowObj} reset={setData} />
+      <div id="list" className={classes.root}>
+        {error ? (
+          <>
+            <Typography variant="h2" component="h3">
+              Whoops, we encountered a problem...
+            </Typography>
+          </>
+        ) : (
+          data.length > 0 &&
+          data.map(
+            ({
+              FACILITY_ID,
+              REPORTING_YEAR,
+              FACILITY_NAME,
+              GHG_NAME,
+              GHG_QUANTITY
+            }) => (
+              <div key={FACILITY_ID}>
+                <Grid container justify="center" spacing={3}>
+                  <Grid item xs={12} sm={8}>
+                    <Paper
+                      className={classes.paperStyle}
+                      component="div"
+                      variant="outlined"
+                    >
+                      <Grid container justify="center" spacing={3}>
+                        <Grid item xs={4}>
+                          <Typography>{FACILITY_NAME}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography>{`Year: ${REPORTING_YEAR}`}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Typography>{`GHG: ${GHG_NAME}`}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Typography>{`GHG Quantity: ${GHG_QUANTITY.toFixed(
+                            2
+                          )}`}</Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={2}>
-                        <Typography>{`Year: ${REPORTING_YEAR}`}</Typography>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Typography>{`GHG: ${GHG_NAME}`}</Typography>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Typography>{`GHG Quantity: ${GHG_QUANTITY.toFixed(
-                          2
-                        )}`}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Paper>
+                    </Paper>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </div>
+              </div>
+            )
           )
-        )
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
