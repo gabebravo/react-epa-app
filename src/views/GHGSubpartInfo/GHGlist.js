@@ -50,8 +50,8 @@ export default function GHGlist() {
     const list = document.getElementById('list');
     window.addEventListener('scroll', () => {
       if (
-        window.scrollY + window.innerHeight >
-        list.clientHeight + list.offsetTop
+        window.scrollY + window.innerHeight ===
+        list.clientHeight + list.offsetTop + 8
       ) {
         setLoadMore(true);
       }
