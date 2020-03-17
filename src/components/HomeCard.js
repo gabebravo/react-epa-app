@@ -9,11 +9,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 345
+    maxWidth: 345,
+    margin: 'auto',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '1rem'
+    }
   }
-});
+}));
 
 export default function HomeCard({ header, text, imgUrl, route }) {
   const classes = useStyles();
@@ -24,10 +28,10 @@ export default function HomeCard({ header, text, imgUrl, route }) {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
-          height="140"
+          alt="Landfill image"
+          height="233"
           image={imgUrl}
-          title="Contemplative Reptile"
+          title="Landfill image"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">

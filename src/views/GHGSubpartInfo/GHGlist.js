@@ -14,61 +14,59 @@ const useStyles = makeStyles(theme => ({
 
 export default function GHGlist() {
   const classes = useStyles();
-  const [loadMore, setLoadMore] = useState(true);
   const [rowObj, setRowObj] = useState({ rowStart: 0, rowEnd: 9 });
 
-  const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
 
-  const getData = () => {
-    const { rowStart, rowEnd } = rowObj;
+  const getData = ({ rowStart, rowEnd }) => {
     const GHG_URL = `https://enviro.epa.gov/enviro/efservice/HH_SUBPART_LEVEL_INFORMATION/REPORTING_YEAR/=/2018/rows/${rowStart}:${rowEnd}/JSON`;
     async function fetchPost() {
       try {
         // attempt fetch
         const apiData = await axios.get(GHG_URL).then(res => res.data);
         setData(prevState => [...prevState, ...apiData]); // set data
-        setRowObj(prevState => ({
-          rowStart: prevState.rowEnd + 1,
-          rowEnd: prevState.rowEnd + 10
-        }));
       } catch (error) {
         setError(error); // set error
-      } finally {
-        // runs last only under try/pass condiiton >> resets loading
-        setIsLoading(false);
       }
     }
-
-    // set the loading flag & make api call
-    setIsLoading(true);
     fetchPost();
   };
 
   useEffect(() => {
     const list = document.getElementById('list');
-    window.addEventListener('scroll', () => {
-      if (
-        window.scrollY + window.innerHeight ===
-        list.clientHeight + list.offsetTop + 8
-      ) {
-        setLoadMore(true);
-      }
-    });
-    return () => window.removeEventListener('scroll');
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (
+          window.scrollY + window.innerHeight ===
+          list.clientHeight + list.offsetTop + 8
+        ) {
+          setRowObj(prevState => ({
+            rowStart: prevState.rowEnd + 1,
+            rowEnd: prevState.rowEnd + 10
+          }));
+        }
+      },
+      true
+    );
+    return () => window.removeEventListener('scroll', () => {}, false);
   }, []);
 
   useEffect(() => {
-    if (loadMore) {
-      getData();
-      setLoadMore(false);
-    }
-  }, [loadMore]);
+    getData(rowObj);
+  }, [rowObj]);
 
   return (
     <div id="list" className={classes.root}>
-      {data.length > 0 &&
+      {error ? (
+        <>
+          <Typography variant="h2" component="h3">
+            Whoops, we encountered a problem...
+          </Typography>
+        </>
+      ) : (
+        data.length > 0 &&
         data.map(
           ({
             FACILITY_ID,
@@ -96,7 +94,9 @@ export default function GHGlist() {
                         <Typography>{`GHG: ${GHG_NAME}`}</Typography>
                       </Grid>
                       <Grid item xs={3}>
-                        <Typography>{`GHG Quantity: ${GHG_QUANTITY}`}</Typography>
+                        <Typography>{`GHG Quantity: ${GHG_QUANTITY.toFixed(
+                          2
+                        )}`}</Typography>
                       </Grid>
                     </Grid>
                   </Paper>
@@ -104,7 +104,8 @@ export default function GHGlist() {
               </Grid>
             </div>
           )
-        )}
+        )
+      )}
     </div>
   );
 }

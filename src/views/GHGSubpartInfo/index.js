@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper } from '@material-ui/core';
-import Skeleton from '../../components/SKLoader';
 import Title from '../../components/Title';
 import GHGlist from './GHGlist';
 
@@ -17,8 +16,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Error = () => <Paper>Woops... something went wrong!</Paper>;
-
 export default function GHGSubpartInfo() {
   const classes = useStyles();
   return (
@@ -28,13 +25,6 @@ export default function GHGSubpartInfo() {
         <Grid container justify="center" spacing={3}>
           <Grid item xs={12} sm={8}>
             <GHGlist />
-            {/* {loading ? (
-              <Skeleton />
-            ) : error ? (
-              <Error />
-            ) : data ? (
-              <GHGlist />
-            ) : null} */}
           </Grid>
         </Grid>
       </div>
