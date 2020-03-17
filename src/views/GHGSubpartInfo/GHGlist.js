@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Dropdown from '../../components/Dropdown';
+import SubpartList from './SubpartList';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,45 +71,7 @@ export default function GHGlist() {
             </Typography>
           </>
         ) : (
-          data.length > 0 &&
-          data.map(
-            ({
-              FACILITY_ID,
-              REPORTING_YEAR,
-              FACILITY_NAME,
-              GHG_NAME,
-              GHG_QUANTITY
-            }) => (
-              <div key={FACILITY_ID}>
-                <Grid container justify="center" spacing={3}>
-                  <Grid item xs={12} sm={8}>
-                    <Paper
-                      className={classes.paperStyle}
-                      component="div"
-                      variant="outlined"
-                    >
-                      <Grid container justify="center" spacing={3}>
-                        <Grid item xs={4}>
-                          <Typography>{FACILITY_NAME}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Typography>{`Year: ${REPORTING_YEAR}`}</Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Typography>{`GHG: ${GHG_NAME}`}</Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Typography>{`GHG Quantity: ${GHG_QUANTITY.toFixed(
-                            2
-                          )}`}</Typography>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  </Grid>
-                </Grid>
-              </div>
-            )
-          )
+          <SubpartList data={data} />
         )}
       </div>
     </>
