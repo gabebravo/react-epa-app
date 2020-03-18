@@ -7,7 +7,7 @@ import GHGTable from './GHGTable';
 import Title from '../../components/Title';
 
 const GHG_URL =
-  'https://enviro.epa.gov/enviro/efservice/HH_LANDFILL_INFO/REPORTING_YEAR/=/2018/rows/0:10/JSON';
+  'https://enviro.epa.gov/enviro/efservice/HH_LANDFILL_INFO/REPORTING_YEAR/=/2018/rows/0:199/JSON';
 
 const useStyles = makeStyles(theme => ({
   root: {
