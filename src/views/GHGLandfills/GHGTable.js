@@ -45,6 +45,8 @@ const StyledCSVLink = styled(CSVLink)`
 
 export default function GHGTable({ apiData }) {
   const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const createData = ({
     FACILITY_ID,
@@ -60,7 +62,8 @@ export default function GHGTable({ apiData }) {
     ch4Gen: ANNUAL_MODELED_CH4_GENERATION
   });
 
-  const buildRows = () => apiData.map(data => createData(data));
+  const buildRows = (start, end) =>
+    [...apiData].slice(start, end).map(data => createData(data));
 
   const getCsvData = () => {
     return apiData.map(user =>
@@ -74,7 +77,7 @@ export default function GHGTable({ apiData }) {
     );
   };
 
-  const EnhancedTableToolbar = props => {
+  const EnhancedTableToolbar = () => {
     return (
       <Grid container spacing={3} style={{ marginBottom: 5 }}>
         <Grid item xs={6}>
@@ -97,8 +100,10 @@ export default function GHGTable({ apiData }) {
     );
   };
 
-  const buildTable = () => {
-    return buildRows().map(row => (
+  const buildTable = page => {
+    const start = page * 10;
+    const end = page * 10 + 10;
+    return buildRows(start, end).map(row => (
       <TableRow key={row.id}>
         <TableCell component="th" scope="row">
           {row.name}
@@ -108,6 +113,15 @@ export default function GHGTable({ apiData }) {
         <TableCell align="left">{row.ch4Gen}</TableCell>
       </TableRow>
     ));
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   return (
@@ -124,16 +138,16 @@ export default function GHGTable({ apiData }) {
                 <StyledTableCell align="left">CH4 Generation</StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{buildTable()}</TableBody>
+            <TableBody>{buildTable(page)}</TableBody>
           </Table>
           <TablePagination
             rowsPerPageOptions={[]}
             component="div"
-            count={30}
-            rowsPerPage={15}
-            page={0}
-            onChangePage={() => console.log('clicked')}
-            onChangeRowsPerPage={() => console.log('clicked')}
+            count={apiData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </TableContainer>
       </>
