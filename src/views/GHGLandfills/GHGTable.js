@@ -141,7 +141,7 @@ export default function GHGTable({ apiData }) {
             <TableBody>{buildTable(page)}</TableBody>
           </Table>
           <TablePagination
-            rowsPerPageOptions={[20, 40, 60, 80, 100, 120, 140, 160, 180, 200]}
+            rowsPerPageOptions={[]}
             component="div"
             count={apiData.length}
             rowsPerPage={rowsPerPage}
